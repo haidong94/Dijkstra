@@ -1,22 +1,15 @@
 package com.example.user.scatterplotgraphview;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Looper;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -24,14 +17,8 @@ import com.jjoe64.graphview.series.OnDataPointTapListener;
 import com.jjoe64.graphview.series.PointsGraphSeries;
 import com.jjoe64.graphview.series.Series;
 
-
 import java.util.ArrayList;
-
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 
 
@@ -93,8 +80,21 @@ public class MainActivity extends AppCompatActivity {
                         "y = " + (int)dataPoint.getY() );
                 if(i==2)
                 {
-                    CreateDijkstraTask task=new CreateDijkstraTask(MainActivity.this);
-                    task.execute(pointDijkstra[0],pointDijkstra[1]);
+                    int tongdodaidiemden=0;
+                    int tongdodaidiemdi=0;
+                    for(int i=0;i<sodiem;i++) {
+                        tongdodaidiemden += matrix[pointDijkstra[0]][i];
+                        tongdodaidiemdi += matrix[pointDijkstra[1]][i];
+                    }
+
+                    if(tongdodaidiemden!=0&& tongdodaidiemdi!=0)
+                    {
+                        CreateDijkstraTask task = new CreateDijkstraTask(MainActivity.this);
+                        task.execute(pointDijkstra[0], pointDijkstra[1]);
+                    }
+                    else {
+                        toastMessage("Không có đường đi");
+                    }
                 }
                    // createScatterPlot();
             }
