@@ -9,7 +9,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
@@ -98,11 +97,11 @@ public class StartActivity extends AppCompatActivity {
         rotatingTextWrapper.setSize(35);
         rotatingTextWrapper.setTypeface(typeface2);
 
-        Rotatable rotatable = new Rotatable(Color.parseColor("#FFA036"), 1000, "Thuật Toán Dijkstra","By","Hoàng Hải Đông");
-        rotatable.setSize(35);
-        rotatable.setTypeface(typeface);
-        rotatable.setInterpolator(new AccelerateInterpolator());
-        rotatable.setAnimationDuration(500);
+//        Rotatable rotatable = new Rotatable(Color.parseColor("#FFA036"), 1000, "Thuật Toán Dijkstra","By","Hoàng Hải Đông");
+//        rotatable.setSize(35);
+//        rotatable.setTypeface(typeface);
+//        rotatable.setInterpolator(new AccelerateInterpolator());
+//        rotatable.setAnimationDuration(500);
 
         Rotatable rotatable2 = new Rotatable(Color.parseColor("#123456"), 1000," Thuật Toán","  Dijkstra","      By", "  Hải Đông");
         rotatable2.setSize(25);
