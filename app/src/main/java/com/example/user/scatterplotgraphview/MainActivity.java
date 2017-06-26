@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     int mark[];//đánh dấu đỉnh
 
     int i=0;
+    //List<Integer> aaa=new List<>();
     int pointDijkstra[]=new int[20];// mang luu vi tri diem dau, diem cuoi duonng can tim
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
                     else {
                         toastMessage("Không có đường đi");
                     }
+
+                    i=0;
                 }
                    // createScatterPlot();
             }
@@ -446,6 +449,9 @@ public class MainActivity extends AppCompatActivity {
             int finish = pointDijkstra[1];
             int start = list.get(finish);//sao start lai bang cai nay, lay gia tri no
 
+            Random rnd = new Random();
+            int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+
             if(weight[pointDijkstra[1]]==Double.MAX_VALUE){
                     toastMessage("Không có đường đi");
             }
@@ -469,7 +475,8 @@ public class MainActivity extends AppCompatActivity {
                             dataPoint2
                     });
 
-                    series.setColor(Color.RED);
+
+                    series.setColor(color);
                     mScatterPlot.addSeries(series);
 
                     finish = start;
