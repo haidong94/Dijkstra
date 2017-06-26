@@ -65,12 +65,12 @@ public class StartActivity extends AppCompatActivity {
                     {
                         if (sodiem > 20)
                         {
-                            Toast.makeText(StartActivity.this,"Sô điểm phải nhỏ hơn 20",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(StartActivity.this,"Sô điểm phải nhỏ hơn hoặc bằng 20",Toast.LENGTH_SHORT).show();
                         }
-                        if(soduong>400)
-                            Toast.makeText(StartActivity.this,"Sô đường phải nhỏ hơn 400",Toast.LENGTH_SHORT).show();
+                        if(soduong>190)
+                            Toast.makeText(StartActivity.this,"Sô đường phải nhỏ hơn hoặc bằng 190",Toast.LENGTH_SHORT).show();
 
-                        if(sodiem<20&&soduong<400) {
+                        if(sodiem<=20&&soduong<=190) {
                             Intent intent = new Intent(StartActivity.this, MainActivity.class);
                             intent.putExtra("sodiem", sodiem);
                             intent.putExtra("soduong", soduong);

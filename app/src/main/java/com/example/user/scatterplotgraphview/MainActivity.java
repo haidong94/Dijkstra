@@ -45,11 +45,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         getIntentFromStartActivity();
+
         createPoint();
         createScatterPlot();
         createLine();
         createMatrix();
+//        CreateDoThi createDoThi=new CreateDoThi();
+//        createDoThi.execute();
+
         eventClickPoint();
     }
 
@@ -57,14 +62,6 @@ public class MainActivity extends AppCompatActivity {
         xySeries.setOnDataPointTapListener(new OnDataPointTapListener() {
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
-                //declare new series
-//                onClickSeries = new PointsGraphSeries<>();
-//                onClickSeries.appendData(new DataPoint(dataPoint.getX(),dataPoint.getY()),true, 100);
-//                onClickSeries.setShape(PointsGraphSeries.Sha pe.RECTANGLE);
-//                onClickSeries.setColor(Color.RED);
-//                onClickSeries.setSize(25f);
-//                mScatterPlot.removeAllSeries();
-//                mScatterPlot.addSeries(onClickSeries);
                 int vitri = 0;
 
                 for(Point point:xyValueArray){
@@ -136,7 +133,8 @@ public class MainActivity extends AppCompatActivity {
                 if(series.getHighestValueX()==series1.getHighestValueX()
                         &&series.getHighestValueY()==series1.getHighestValueY()
                         &&series.getLowestValueX()==series1.getLowestValueX()
-                        &&series.getLowestValueY()==series1.getLowestValueY()) {
+                        &&series.getLowestValueY()==series1.getLowestValueY()
+                        &&series.getColor()==series1.getColor()) {
                     exist=1;
                     soduong++;
                     break;
@@ -285,7 +283,6 @@ public class MainActivity extends AppCompatActivity {
 
     //tạo ma trận trọng số
     private void createMatrix(){
-
         matrix=new double[sodiem][sodiem];
         for(int i=0;i<sodiem;i++){
             matrix[i][i]=0;
@@ -327,7 +324,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
         //log ra đúng
         for(int i=0;i<sodiem;i++) {
             for (int j = 0; j < sodiem; j++) {
@@ -335,6 +331,18 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    public class CreateDoThi extends AsyncTask<Void,Void,Void>{
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            createPoint();
+            createScatterPlot();
+            createLine();
+            createMatrix();
+            return null;
+        }
     }
 
     public class CreateDijkstraTask extends AsyncTask<Integer, Void, ArrayList<Integer>> {
@@ -407,8 +415,13 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 vitri[0]=connect;
+                if(connect==-1)
+                {
+                    break;
+                }
                 mark[vitri[0]]=1;
-            }while (connect!=-1&& vitri[0]!=vitri[1]);
+
+            }while ( vitri[0]!=vitri[1]);
 
             for(int i = 0; i< back.length; i++)
                 list.add(back[i]);
@@ -429,34 +442,43 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(list);
             //interfaceListChap.processFinish();
             // giờ phải vẽ như nào
+
             int finish = pointDijkstra[1];
             int start = list.get(finish);//sao start lai bang cai nay, lay gia tri no
 
-            do {
-                Log.v("start1", finish + "");
-                Log.v("start", start + "");
-                DataPoint dataPoint1;
-                DataPoint dataPoint2;
-                if (xyValueArray.get(start).getX() <= xyValueArray.get(finish).getX()) {
-                    dataPoint1 = new DataPoint(xyValueArray.get(start).getX(), xyValueArray.get(start).getY());
-                    dataPoint2 = new DataPoint(xyValueArray.get(finish).getX(), xyValueArray.get(finish).getY());
-                } else {
-                    dataPoint1 = new DataPoint(xyValueArray.get(finish).getX(), xyValueArray.get(finish).getY());
-                    dataPoint2 = new DataPoint(xyValueArray.get(start).getX(), xyValueArray.get(start).getY());
-                }
+            if(weight[pointDijkstra[1]]==Double.MAX_VALUE){
+                    toastMessage("Không có đường đi");
+            }
+            else
+            {
+                do {
+                    Log.v("start1", finish + "");
+                    Log.v("start", start + "");
+                    DataPoint dataPoint1;
+                    DataPoint dataPoint2;
+                    if (xyValueArray.get(start).getX() <= xyValueArray.get(finish).getX()) {
+                        dataPoint1 = new DataPoint(xyValueArray.get(start).getX(), xyValueArray.get(start).getY());
+                        dataPoint2 = new DataPoint(xyValueArray.get(finish).getX(), xyValueArray.get(finish).getY());
+                    } else {
+                        dataPoint1 = new DataPoint(xyValueArray.get(finish).getX(), xyValueArray.get(finish).getY());
+                        dataPoint2 = new DataPoint(xyValueArray.get(start).getX(), xyValueArray.get(start).getY());
+                    }
 
-                LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
-                        dataPoint1,
-                        dataPoint2
-                });
+                    LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
+                            dataPoint1,
+                            dataPoint2
+                    });
 
-                series.setColor(Color.RED);
-                mScatterPlot.addSeries(series);
+                    series.setColor(Color.RED);
+                    mScatterPlot.addSeries(series);
 
-                finish = start;
-                start = list.get(finish);
-            } while (finish != pointDijkstra[0]);
-            toastMessage("Độ Dài:"+weight[pointDijkstra[1]]);
+                    finish = start;
+                    start = list.get(finish);
+                } while (finish != pointDijkstra[0]);
+                toastMessage("Độ Dài:"+weight[pointDijkstra[1]]);
+
+            }
+
         }
     }
 
